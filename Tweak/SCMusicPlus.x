@@ -48,6 +48,16 @@
 
 // @end
 
+
+%hook NSBundle
+- (NSDictionary *)infoDictionary {
+    NSMutableDictionary *info = %orig.mutableCopy;
+    if ([self isEqual:NSBundle.mainBundle])
+        info[@"CFBundleIdentifier"] = @"com.soundcloud.TouchApp";
+    return info;
+}
+%end
+
 %hook UpsellManager
 	- (bool)canNotUpsell {
 		return YES;
